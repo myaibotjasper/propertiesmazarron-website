@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services - Properties Mazarrón</title>
+  <meta name="description" content="Property sales, legal translation services, and relocation assistance in Mazarrón and Costa Cálida.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, sans-serif; color: #1a365d; line-height: 1.6; }
+    
+    .top-bar { background: #1a365d; color: white; padding: 0.5rem 2rem; font-size: 0.875rem; }
+    .top-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .top-bar a { color: white; text-decoration: none; }
+    
+    header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #1a365d; text-decoration: none; }
+    .logo span { color: #e53e3e; }
+    nav { display: flex; gap: 2rem; }
+    nav a { color: #4a5568; text-decoration: none; font-weight: 500; }
+    nav a:hover, nav a.active { color: #e53e3e; }
+    .mobile-menu { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+    
+    .page-header { background: #1a365d; color: white; padding: 3rem 2rem; text-align: center; }
+    .page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    
+    main { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
+    
+    .services-grid { display: grid; gap: 2rem; }
+    .service-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    .service-card h2 { font-size: 1.5rem; margin-bottom: 1rem; color: #1a365d; display: flex; align-items: center; gap: 0.75rem; }
+    .service-card p { color: #4a5568; margin-bottom: 1rem; }
+    .service-card ul { color: #4a5568; margin-left: 1.5rem; margin-bottom: 1rem; }
+    .service-card li { margin-bottom: 0.5rem; }
+    
+    .cta-box { background: linear-gradient(135deg, #e53e3e, #c53030); color: white; padding: 3rem; border-radius: 12px; text-align: center; margin-top: 3rem; }
+    .cta-box h2 { margin-bottom: 1rem; }
+    .cta-box p { margin-bottom: 1.5rem; opacity: 0.9; }
+    .cta-box .btn { display: inline-block; background: white; color: #e53e3e; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    
+    footer { background: #0f172a; color: #94a3b8; padding: 2rem; text-align: center; margin-top: 3rem; }
+    footer a { color: #94a3b8; }
+    
+    @media (max-width: 768px) {
+      nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; flex-direction: column; padding: 1rem; gap: 1rem; }
+      nav.active { display: flex; }
+      .mobile-menu { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span>📞 <a href="tel:+34968153707">+34 968 15 37 07</a></span>
+      <span>📧 <a href="mailto:jgalvezrenero@gmail.com">jgalvezrenero@gmail.com</a></span>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo">Properties<span>Mazarrón</span></a>
+      <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('active')">☰</button>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/properties/">Properties</a>
+        <a href="/services/" class="active">Services</a>
+        <a href="/about/">About Us</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <h1>Our Services</h1>
+    <p>Comprehensive support for buying property in Spain</p>
+  </div>
+
+  <main>
+    <div class="services-grid">
+      <div class="service-card">
+        <h2>🏠 Property Sales</h2>
+        <p>We offer a wide selection of properties throughout the Mazarrón area and Costa Cálida region. Whether you're looking for a holiday home, permanent residence, or investment property, we can help you find the perfect match.</p>
+        <ul>
+          <li>Villas and detached houses</li>
+          <li>Apartments and townhouses</li>
+          <li>Country fincas and rural properties</li>
+          <li>Building plots and land</li>
+          <li>Commercial properties</li>
+        </ul>
+        <p>Our local knowledge means we can advise on the best areas to suit your lifestyle and budget.</p>
+      </div>
+
+      <div class="service-card">
+        <h2>📋 Translation & Legal Services</h2>
+        <p>J. Gálvez Renero S.L. has been established in the area for many years, providing essential legal and translation services to help you navigate the Spanish property system with confidence.</p>
+        <ul>
+          <li>Document translation (Spanish/English)</li>
+          <li>Legal document preparation</li>
+          <li>NIE (foreigner identification number) assistance</li>
+          <li>Residency application support</li>
+          <li>Contract review and explanation</li>
+        </ul>
+        <p>We ensure you understand every step of the buying process and all your legal obligations.</p>
+      </div>
+
+      <div class="service-card">
+        <h2>🤝 Relocation Assistance</h2>
+        <p>Moving to a new country can be daunting. We provide ongoing support to help make your transition to Spanish life as smooth as possible.</p>
+        <ul>
+          <li>Utility connections (water, electricity, internet)</li>
+          <li>Local service recommendations</li>
+          <li>Area orientation and advice</li>
+          <li>Ongoing support after purchase</li>
+          <li>Problem resolution assistance</li>
+        </ul>
+        <p>Our many long-standing clients know that help is always just a phone call away.</p>
+      </div>
+
+      <div class="service-card">
+        <h2>🔍 Property Finding Service</h2>
+        <p>Can't find what you're looking for in our listings? Let us know your requirements and we'll search for properties that match your criteria.</p>
+        <ul>
+          <li>Personalised property search</li>
+          <li>Access to off-market properties</li>
+          <li>Viewing arrangements</li>
+          <li>Negotiation on your behalf</li>
+        </ul>
+        <p>We work hard to find you the perfect property, even if it's not currently on the market.</p>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Ready to Start Your Spanish Adventure?</h2>
+      <p>Contact us today for a friendly, no-obligation chat about how we can help you.</p>
+      <a href="/contact/" class="btn">Get in Touch</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2013-2026 Properties Mazarrón - J. Gálvez Renero S.L.U. | <a href="/aviso-legal/">Aviso Legal</a></p>
+  </footer>
+</body>
+</html>

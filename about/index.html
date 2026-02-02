@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Properties Mazarrón</title>
+  <meta name="description" content="Learn about Properties Mazarrón and J. Gálvez Renero S.L., your trusted property experts in Costa Cálida.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, sans-serif; color: #1a365d; line-height: 1.6; }
+    
+    .top-bar { background: #1a365d; color: white; padding: 0.5rem 2rem; font-size: 0.875rem; }
+    .top-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .top-bar a { color: white; text-decoration: none; }
+    
+    header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #1a365d; text-decoration: none; }
+    .logo span { color: #e53e3e; }
+    nav { display: flex; gap: 2rem; }
+    nav a { color: #4a5568; text-decoration: none; font-weight: 500; }
+    nav a:hover, nav a.active { color: #e53e3e; }
+    .mobile-menu { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+    
+    .page-header { background: #1a365d; color: white; padding: 3rem 2rem; text-align: center; }
+    .page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    
+    main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+    
+    .content-section { margin-bottom: 3rem; }
+    .content-section h2 { font-size: 1.75rem; margin-bottom: 1.5rem; color: #1a365d; }
+    .content-section p { color: #4a5568; margin-bottom: 1rem; font-size: 1.1rem; }
+    
+    .highlight-box { background: #f7fafc; border-left: 4px solid #e53e3e; padding: 1.5rem 2rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+    .highlight-box p { margin: 0; font-style: italic; }
+    
+    .areas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+    .area-card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; }
+    .area-card h3 { color: #1a365d; margin-bottom: 0.5rem; }
+    .area-card p { color: #718096; font-size: 0.9rem; margin: 0; }
+    
+    .company-info { background: #1a365d; color: white; padding: 2rem; border-radius: 12px; margin-top: 2rem; }
+    .company-info h3 { margin-bottom: 1rem; }
+    .company-info p { opacity: 0.9; margin-bottom: 0.5rem; }
+    
+    footer { background: #0f172a; color: #94a3b8; padding: 2rem; text-align: center; margin-top: 3rem; }
+    footer a { color: #94a3b8; }
+    
+    @media (max-width: 768px) {
+      nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; flex-direction: column; padding: 1rem; gap: 1rem; }
+      nav.active { display: flex; }
+      .mobile-menu { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span>📞 <a href="tel:+34968153707">+34 968 15 37 07</a></span>
+      <span>📧 <a href="mailto:jgalvezrenero@gmail.com">jgalvezrenero@gmail.com</a></span>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo">Properties<span>Mazarrón</span></a>
+      <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('active')">☰</button>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/properties/">Properties</a>
+        <a href="/services/">Services</a>
+        <a href="/about/" class="active">About Us</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <h1>About Us</h1>
+    <p>Your trusted property partner in Costa Cálida</p>
+  </div>
+
+  <main>
+    <div class="content-section">
+      <h2>Who We Are</h2>
+      <p>Over the years we have accrued a large knowledge of what people require when purchasing a home in Spain. With this experience, we decided to add a property sales department to our existing legal and translation business.</p>
+      <p>With our legal and local knowledge, we ensure a smooth transition for anyone wishing to purchase a property in Mazarrón, Puerto de Mazarrón, Camposol, Isla Plana, Bolnuevo or other areas of the Costa Cálida.</p>
+      
+      <div class="highlight-box">
+        <p>"J. Gálvez Renero S.L. has been established in the area of Mazarrón for many years, assisting people to relocate to Spain by providing all the necessary legal documents and fulfilling the requirements of living in a foreign country."</p>
+      </div>
+      
+      <p>The company remains a constant in the area with many clients dating back considerable years. From time to time a problem may arise, and it is comforting to know that help is just a phone call away.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Areas We Cover</h2>
+      <p>We specialise in properties throughout the Costa Cálida region, including:</p>
+      
+      <div class="areas-grid">
+        <div class="area-card">
+          <h3>Mazarrón</h3>
+          <p>Historic town centre with weekly market</p>
+        </div>
+        <div class="area-card">
+          <h3>Puerto de Mazarrón</h3>
+          <p>Coastal resort with beaches and marina</p>
+        </div>
+        <div class="area-card">
+          <h3>Camposol</h3>
+          <p>Popular residential urbanisation</p>
+        </div>
+        <div class="area-card">
+          <h3>Bolnuevo</h3>
+          <p>Beautiful beaches and rock formations</p>
+        </div>
+        <div class="area-card">
+          <h3>Isla Plana</h3>
+          <p>Quiet coastal village</p>
+        </div>
+        <div class="area-card">
+          <h3>La Azohía</h3>
+          <p>Traditional fishing village</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Why Costa Cálida?</h2>
+      <p>The Costa Cálida is situated in the South East of Spain and is home to numerous tranquil, unspoilt resorts. The area is easily accessible from either Alicante airport (75 minutes) or Corvera airport (50 minutes).</p>
+      <p>Mazarrón, Puerto de Mazarrón, La Azohía, Isla Plana and Bolnuevo are just a few great places to buy properties. Offering stunning beaches, boating facilities, excellent restaurants and the historical cities of Murcia and Cartagena just a short drive away, the Costa Cálida is the perfect place to buy your Spanish home.</p>
+    </div>
+
+    <div class="company-info">
+      <h3>Company Information</h3>
+      <p><strong>J. Gálvez Renero S.L.U.</strong></p>
+      <p>NIF: B-73473332</p>
+      <p>📍 C/ Severo Ochoa, Edif. Acuario Loc. 2, 30860 Puerto de Mazarrón, Murcia (España)</p>
+      <p>📞 +34 968 15 37 07</p>
+      <p>📠 Fax: 968 15 35 59</p>
+      <p>📧 jgalvezrenero@gmail.com</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2013-2026 Properties Mazarrón - J. Gálvez Renero S.L.U. | <a href="/aviso-legal/">Aviso Legal</a></p>
+  </footer>
+</body>
+</html>
