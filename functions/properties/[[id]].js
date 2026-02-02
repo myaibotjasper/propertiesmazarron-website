@@ -185,7 +185,7 @@ function generatePropertyPage(p) {
 
   <header>
     <div class="header-inner">
-      <a href="/" class="logo">Properties<span>Mazarrón</span></a>
+      <a href="/" class="logo"><img src="/assets/images/logo.png" alt="Properties Mazarrón" height="50"></a>
       <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('active')">☰</button>
       <nav>
         <a href="/">Home</a>
@@ -304,7 +304,7 @@ function generateNotFoundPage() {
   </style>
 </head>
 <body>
-  <header><a href="/" class="logo">Properties<span>Mazarrón</span></a></header>
+  <header><a href="/" class="logo"><img src="/assets/images/logo.png" alt="Properties Mazarrón" height="50"></a></header>
   <main>
     <div>
       <h1>Property Not Found</h1>
