@@ -3,8 +3,9 @@ export async function onRequest(context) {
   const { params, env, request } = context;
   const propertyId = params.id ? params.id.join('/').replace(/\/$/, '') : null;
   
+  // If no property ID, serve the static listing page
   if (!propertyId) {
-    return new Response('Not found', { status: 404 });
+    return env.ASSETS.fetch(request);
   }
 
   const property = await env.PROPERTIES_KV.get(`property:${propertyId}`, 'json');
