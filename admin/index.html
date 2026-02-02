@@ -42,8 +42,16 @@
     .property-card .content { padding: 1.25rem; }
     .property-card h3 { font-size: 1.1rem; color: #1a365d; margin-bottom: 0.5rem; }
     .property-card .price { font-size: 1.25rem; font-weight: 700; color: #38a169; margin-bottom: 0.5rem; }
-    .property-card .meta { color: #718096; font-size: 0.875rem; margin-bottom: 1rem; }
+    .property-card .meta { color: #718096; font-size: 0.875rem; margin-bottom: 0.5rem; }
     .property-card .meta span { margin-right: 1rem; }
+    .property-card .epc { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .property-card .epc.A { background: #22c55e; color: white; }
+    .property-card .epc.B { background: #84cc16; color: white; }
+    .property-card .epc.C { background: #eab308; color: black; }
+    .property-card .epc.D { background: #f97316; color: white; }
+    .property-card .epc.E { background: #ef4444; color: white; }
+    .property-card .epc.F { background: #dc2626; color: white; }
+    .property-card .epc.G { background: #991b1b; color: white; }
     .property-card .status { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
     .property-card .status.active { background: #c6f6d5; color: #22543d; }
     .property-card .status.sold { background: #fed7d7; color: #742a2a; }
@@ -58,8 +66,8 @@
     /* Modal */
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
     .modal.active { display: flex; }
-    .modal-content { background: white; border-radius: 12px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
-    .modal-header { padding: 1.25rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .modal-content { background: white; border-radius: 12px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 1.25rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 10; }
     .modal-header h3 { font-size: 1.25rem; color: #1a365d; }
     .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #a0aec0; }
     .modal-body { padding: 1.25rem; }
@@ -78,14 +86,35 @@
     .checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: normal; cursor: pointer; }
     .checkbox-group input { width: auto; }
     
-    .modal-footer { padding: 1.25rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 1rem; }
+    /* Image Upload */
+    .image-upload-area { border: 2px dashed #cbd5e0; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; background: #f7fafc; }
+    .image-upload-area:hover, .image-upload-area.dragover { border-color: #3182ce; background: #ebf8ff; }
+    .image-upload-area input { display: none; }
+    .image-upload-area .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+    .image-upload-area p { color: #4a5568; margin-bottom: 0.25rem; }
+    .image-upload-area small { color: #a0aec0; }
+    
+    .image-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .image-preview { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: #e2e8f0; }
+    .image-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .image-preview .remove-btn { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border: none; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .image-preview .remove-btn:hover { background: #e53e3e; }
+    .image-preview.uploading::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; }
+    .image-preview .upload-progress { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: #e2e8f0; }
+    .image-preview .upload-progress .bar { height: 100%; background: #3182ce; transition: width 0.2s; }
+    
+    .modal-footer { padding: 1.25rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 1rem; position: sticky; bottom: 0; background: white; }
     .btn-cancel { background: #e2e8f0; color: #4a5568; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
     .btn-save { background: #3182ce; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
     .btn-save:hover { background: #2c5282; }
+    .btn-save:disabled { background: #a0aec0; cursor: not-allowed; }
     
     .empty-state { text-align: center; padding: 4rem 2rem; background: white; border-radius: 12px; }
     .empty-state h3 { color: #4a5568; margin-bottom: 0.5rem; }
     .empty-state p { color: #a0aec0; }
+    
+    .upload-status { margin-top: 0.5rem; font-size: 0.875rem; color: #718096; }
+    .upload-status.error { color: #e53e3e; }
     
     @media (max-width: 768px) {
       .form-grid { grid-template-columns: 1fr; }
@@ -219,6 +248,26 @@
               </select>
             </div>
             
+            <div class="form-group">
+              <label>CEE/EPC Rating</label>
+              <select id="propEpc">
+                <option value="">Not specified</option>
+                <option value="A">A - Most Efficient</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G - Least Efficient</option>
+                <option value="pending">Pending</option>
+                <option value="exempt">Exempt</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label><input type="checkbox" id="propFeatured"> Featured Property</label>
+            </div>
+            
             <div class="form-group full">
               <label>Description</label>
               <textarea id="propDescription" placeholder="Describe the property..."></textarea>
@@ -241,29 +290,35 @@
             </div>
             
             <div class="form-group full">
-              <label>Image URLs (one per line)</label>
-              <textarea id="propImages" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
-              <small>Enter full image URLs, one per line</small>
-            </div>
-            
-            <div class="form-group">
-              <label><input type="checkbox" id="propFeatured"> Featured Property</label>
+              <label>Property Images</label>
+              <div class="image-upload-area" id="imageUploadArea">
+                <input type="file" id="imageInput" multiple accept="image/*">
+                <div class="icon">📷</div>
+                <p><strong>Drag & drop images here</strong></p>
+                <p>or click to browse</p>
+                <small>Max 2MB per image • JPG, PNG, WebP</small>
+              </div>
+              <div class="upload-status" id="uploadStatus"></div>
+              <div class="image-preview-grid" id="imagePreviewGrid"></div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-        <button class="btn-save" onclick="saveProperty()">Save Property</button>
+        <button class="btn-save" id="saveBtn" onclick="saveProperty()">Save Property</button>
       </div>
     </div>
   </div>
 
   <script>
     const API_BASE = '/api/properties';
+    const IMAGE_API = '/api/images';
     let authToken = localStorage.getItem('adminToken') || '';
     let properties = [];
     let editingId = null;
+    let uploadedImages = []; // Array of image URLs
+    let uploading = 0;
 
     // Check if already logged in
     if (authToken) {
@@ -346,6 +401,7 @@
               <span>${p.size || 0}m²</span>
             </div>
             <div class="meta">${escapeHtml(p.area || p.location || 'No location')}</div>
+            ${p.epc ? `<span class="epc ${p.epc}">EPC: ${p.epc}</span> ` : ''}
             <span class="status ${p.status}">${p.status}</span>
             ${p.featured ? ' ⭐' : ''}
             <div class="actions">
@@ -365,6 +421,8 @@
 
     function openModal(property = null) {
       editingId = property ? property.id : null;
+      uploadedImages = property?.images ? [...property.images] : [];
+      
       document.getElementById('modalTitle').textContent = property ? 'Edit Property' : 'Add Property';
       
       // Reset form
@@ -380,8 +438,8 @@
       document.getElementById('propPlotSize').value = property?.plotSize || '';
       document.getElementById('propLocation').value = property?.location || '';
       document.getElementById('propArea').value = property?.area || '';
+      document.getElementById('propEpc').value = property?.epc || '';
       document.getElementById('propDescription').value = property?.description || '';
-      document.getElementById('propImages').value = (property?.images || []).join('\n');
       document.getElementById('propFeatured').checked = property?.featured || false;
       
       // Reset features checkboxes
@@ -389,12 +447,17 @@
         cb.checked = (property?.features || []).includes(cb.value);
       });
       
+      // Render existing images
+      renderImagePreviews();
+      document.getElementById('uploadStatus').textContent = '';
+      
       document.getElementById('propertyModal').classList.add('active');
     }
 
     function closeModal() {
       document.getElementById('propertyModal').classList.remove('active');
       editingId = null;
+      uploadedImages = [];
     }
 
     function editProperty(id) {
@@ -402,16 +465,124 @@
       if (property) openModal(property);
     }
 
+    // Image Upload Handling
+    const uploadArea = document.getElementById('imageUploadArea');
+    const imageInput = document.getElementById('imageInput');
+
+    uploadArea.addEventListener('click', () => imageInput.click());
+    
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+    
+    imageInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+      imageInput.value = ''; // Reset for re-upload
+    });
+
+    async function handleFiles(files) {
+      if (!files || files.length === 0) return;
+      
+      const validFiles = Array.from(files).filter(f => {
+        if (!f.type.startsWith('image/')) {
+          showUploadStatus(`${f.name}: Not an image`, true);
+          return false;
+        }
+        if (f.size > 2 * 1024 * 1024) {
+          showUploadStatus(`${f.name}: Too large (max 2MB)`, true);
+          return false;
+        }
+        return true;
+      });
+
+      if (validFiles.length === 0) return;
+
+      uploading += validFiles.length;
+      updateSaveButton();
+      showUploadStatus(`Uploading ${validFiles.length} image(s)...`);
+
+      const formData = new FormData();
+      validFiles.forEach(f => formData.append('images', f));
+
+      try {
+        const res = await fetch(IMAGE_API, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${authToken}` },
+          body: formData
+        });
+
+        if (res.status === 401) {
+          showUploadStatus('Session expired', true);
+          logout();
+          return;
+        }
+
+        const result = await res.json();
+        
+        if (result.images && result.images.length > 0) {
+          result.images.forEach(img => {
+            uploadedImages.push(img.url);
+          });
+          renderImagePreviews();
+          showUploadStatus(`Uploaded ${result.images.length} image(s)`);
+        }
+
+        if (result.errors && result.errors.length > 0) {
+          showUploadStatus(result.errors.join(', '), true);
+        }
+      } catch (e) {
+        showUploadStatus('Upload failed: ' + e.message, true);
+      }
+
+      uploading -= validFiles.length;
+      updateSaveButton();
+    }
+
+    function showUploadStatus(msg, isError = false) {
+      const status = document.getElementById('uploadStatus');
+      status.textContent = msg;
+      status.className = 'upload-status' + (isError ? ' error' : '');
+    }
+
+    function renderImagePreviews() {
+      const grid = document.getElementById('imagePreviewGrid');
+      grid.innerHTML = uploadedImages.map((url, idx) => `
+        <div class="image-preview">
+          <img src="${url}" alt="Property image ${idx + 1}">
+          <button class="remove-btn" onclick="removeImage(${idx})" title="Remove">×</button>
+        </div>
+      `).join('');
+    }
+
+    function removeImage(idx) {
+      uploadedImages.splice(idx, 1);
+      renderImagePreviews();
+    }
+
+    function updateSaveButton() {
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = uploading > 0;
+      btn.textContent = uploading > 0 ? 'Uploading...' : 'Save Property';
+    }
+
     async function saveProperty() {
+      if (uploading > 0) return;
+      
       const features = [];
       document.querySelectorAll('#featuresGroup input:checked').forEach(cb => {
         features.push(cb.value);
       });
-
-      const images = document.getElementById('propImages').value
-        .split('\n')
-        .map(url => url.trim())
-        .filter(url => url);
 
       const data = {
         id: editingId,
@@ -426,8 +597,9 @@
         plotSize: Number(document.getElementById('propPlotSize').value) || 0,
         location: document.getElementById('propLocation').value,
         area: document.getElementById('propArea').value,
+        epc: document.getElementById('propEpc').value,
         description: document.getElementById('propDescription').value,
-        images: images,
+        images: uploadedImages,
         features: features,
         featured: document.getElementById('propFeatured').checked
       };

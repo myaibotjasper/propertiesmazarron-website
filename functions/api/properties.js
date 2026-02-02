@@ -77,6 +77,7 @@ export async function onRequest(context) {
         plotSize: body.plotSize || 0, // m²
         location: body.location || '',
         area: body.area || '', // Mazarrón, Puerto de Mazarrón, etc.
+        epc: body.epc || '', // Energy Performance Certificate: A-G, pending, exempt
         features: body.features || [], // pool, garage, terrace, etc.
         images: body.images || [], // array of image URLs
         status: body.status || 'active', // active, sold, reserved
