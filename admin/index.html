@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Admin - Properties Mazarrón</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; min-height: 100vh; }
+    
+    /* Login Screen */
+    .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .login-box { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+    .login-box h1 { font-size: 1.5rem; margin-bottom: 1.5rem; color: #1a365d; text-align: center; }
+    .login-box input { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; margin-bottom: 1rem; }
+    .login-box input:focus { outline: none; border-color: #3182ce; }
+    .login-box button { width: 100%; padding: 12px; background: #3182ce; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+    .login-box button:hover { background: #2c5282; }
+    .error { color: #e53e3e; font-size: 0.875rem; margin-bottom: 1rem; text-align: center; }
+    
+    /* Admin Dashboard */
+    .admin { display: none; }
+    .admin.active { display: block; }
+    
+    header { background: #1a365d; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.25rem; }
+    header button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+    header button:hover { background: rgba(255,255,255,0.3); }
+    
+    main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+    
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .toolbar h2 { font-size: 1.5rem; color: #1a365d; }
+    .btn-primary { background: #38a169; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .btn-primary:hover { background: #2f855a; }
+    
+    /* Property Cards */
+    .properties-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
+    .property-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .property-card img { width: 100%; height: 200px; object-fit: cover; background: #e2e8f0; }
+    .property-card .no-image { height: 200px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #a0aec0; }
+    .property-card .content { padding: 1.25rem; }
+    .property-card h3 { font-size: 1.1rem; color: #1a365d; margin-bottom: 0.5rem; }
+    .property-card .price { font-size: 1.25rem; font-weight: 700; color: #38a169; margin-bottom: 0.5rem; }
+    .property-card .meta { color: #718096; font-size: 0.875rem; margin-bottom: 1rem; }
+    .property-card .meta span { margin-right: 1rem; }
+    .property-card .status { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .property-card .status.active { background: #c6f6d5; color: #22543d; }
+    .property-card .status.sold { background: #fed7d7; color: #742a2a; }
+    .property-card .status.reserved { background: #feebc8; color: #744210; }
+    .property-card .actions { display: flex; gap: 8px; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; }
+    .property-card .actions button { flex: 1; padding: 8px; border: none; border-radius: 6px; font-weight: 500; cursor: pointer; }
+    .btn-edit { background: #ebf8ff; color: #2b6cb0; }
+    .btn-edit:hover { background: #bee3f8; }
+    .btn-delete { background: #fff5f5; color: #c53030; }
+    .btn-delete:hover { background: #fed7d7; }
+    
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
+    .modal.active { display: flex; }
+    .modal-content { background: white; border-radius: 12px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 1.25rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h3 { font-size: 1.25rem; color: #1a365d; }
+    .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #a0aec0; }
+    .modal-body { padding: 1.25rem; }
+    
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group.full { grid-column: span 2; }
+    .form-group label { display: block; font-weight: 500; color: #4a5568; margin-bottom: 0.5rem; font-size: 0.875rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #3182ce; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group small { color: #718096; font-size: 0.75rem; }
+    
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .checkbox-group label { display: flex; align-items: center; gap: 6px; font-weight: normal; cursor: pointer; }
+    .checkbox-group input { width: auto; }
+    
+    .modal-footer { padding: 1.25rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 1rem; }
+    .btn-cancel { background: #e2e8f0; color: #4a5568; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn-save { background: #3182ce; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .btn-save:hover { background: #2c5282; }
+    
+    .empty-state { text-align: center; padding: 4rem 2rem; background: white; border-radius: 12px; }
+    .empty-state h3 { color: #4a5568; margin-bottom: 0.5rem; }
+    .empty-state p { color: #a0aec0; }
+    
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: span 1; }
+      header { flex-direction: column; gap: 1rem; text-align: center; }
+      .toolbar { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h1>🏠 Property Admin</h1>
+      <div class="error" id="loginError"></div>
+      <input type="password" id="passwordInput" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')login()">
+      <button onclick="login()">Sign In</button>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div class="admin" id="adminDashboard">
+    <header>
+      <h1>🏠 Properties Mazarrón - Admin</h1>
+      <button onclick="logout()">Sign Out</button>
+    </header>
+    
+    <main>
+      <div class="toolbar">
+        <h2>Properties</h2>
+        <button class="btn-primary" onclick="openModal()">
+          <span>+</span> Add Property
+        </button>
+      </div>
+      
+      <div class="properties-grid" id="propertiesGrid">
+        <!-- Properties loaded here -->
+      </div>
+      
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <h3>No properties yet</h3>
+        <p>Click "Add Property" to create your first listing</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Property Modal -->
+  <div class="modal" id="propertyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add Property</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="propertyForm">
+          <input type="hidden" id="propId">
+          
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Title *</label>
+              <input type="text" id="propTitle" required placeholder="e.g., Beautiful Villa with Sea Views">
+            </div>
+            
+            <div class="form-group">
+              <label>Price (€) *</label>
+              <input type="number" id="propPrice" required placeholder="e.g., 250000">
+            </div>
+            
+            <div class="form-group">
+              <label>Reference</label>
+              <input type="text" id="propRef" placeholder="e.g., PM-001">
+            </div>
+            
+            <div class="form-group">
+              <label>Type</label>
+              <select id="propType">
+                <option value="house">House</option>
+                <option value="apartment">Apartment</option>
+                <option value="villa">Villa</option>
+                <option value="townhouse">Townhouse</option>
+                <option value="land">Land</option>
+                <option value="commercial">Commercial</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Status</label>
+              <select id="propStatus">
+                <option value="active">Active</option>
+                <option value="reserved">Reserved</option>
+                <option value="sold">Sold</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Bedrooms</label>
+              <input type="number" id="propBedrooms" min="0" placeholder="0">
+            </div>
+            
+            <div class="form-group">
+              <label>Bathrooms</label>
+              <input type="number" id="propBathrooms" min="0" placeholder="0">
+            </div>
+            
+            <div class="form-group">
+              <label>Size (m²)</label>
+              <input type="number" id="propSize" min="0" placeholder="Built area">
+            </div>
+            
+            <div class="form-group">
+              <label>Plot Size (m²)</label>
+              <input type="number" id="propPlotSize" min="0" placeholder="Land area">
+            </div>
+            
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" id="propLocation" placeholder="e.g., Camposol, Sector A">
+            </div>
+            
+            <div class="form-group">
+              <label>Area</label>
+              <select id="propArea">
+                <option value="">Select area...</option>
+                <option value="Mazarrón">Mazarrón</option>
+                <option value="Puerto de Mazarrón">Puerto de Mazarrón</option>
+                <option value="Camposol">Camposol</option>
+                <option value="Bolnuevo">Bolnuevo</option>
+                <option value="Isla Plana">Isla Plana</option>
+                <option value="La Azohía">La Azohía</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group full">
+              <label>Description</label>
+              <textarea id="propDescription" placeholder="Describe the property..."></textarea>
+            </div>
+            
+            <div class="form-group full">
+              <label>Features</label>
+              <div class="checkbox-group" id="featuresGroup">
+                <label><input type="checkbox" value="pool"> Pool</label>
+                <label><input type="checkbox" value="garage"> Garage</label>
+                <label><input type="checkbox" value="terrace"> Terrace</label>
+                <label><input type="checkbox" value="garden"> Garden</label>
+                <label><input type="checkbox" value="sea-view"> Sea View</label>
+                <label><input type="checkbox" value="air-con"> Air Conditioning</label>
+                <label><input type="checkbox" value="central-heating"> Central Heating</label>
+                <label><input type="checkbox" value="furnished"> Furnished</label>
+                <label><input type="checkbox" value="storage"> Storage</label>
+                <label><input type="checkbox" value="solarium"> Solarium</label>
+              </div>
+            </div>
+            
+            <div class="form-group full">
+              <label>Image URLs (one per line)</label>
+              <textarea id="propImages" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+              <small>Enter full image URLs, one per line</small>
+            </div>
+            
+            <div class="form-group">
+              <label><input type="checkbox" id="propFeatured"> Featured Property</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveProperty()">Save Property</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api/properties';
+    let authToken = localStorage.getItem('adminToken') || '';
+    let properties = [];
+    let editingId = null;
+
+    // Check if already logged in
+    if (authToken) {
+      checkAuth();
+    }
+
+    async function checkAuth() {
+      try {
+        const res = await fetch(API_BASE);
+        if (res.ok) {
+          showAdmin();
+          loadProperties();
+        }
+      } catch (e) {
+        logout();
+      }
+    }
+
+    function login() {
+      const password = document.getElementById('passwordInput').value;
+      if (!password) {
+        document.getElementById('loginError').textContent = 'Please enter password';
+        return;
+      }
+      
+      authToken = password;
+      localStorage.setItem('adminToken', authToken);
+      document.getElementById('loginError').textContent = '';
+      showAdmin();
+      loadProperties();
+    }
+
+    function logout() {
+      authToken = '';
+      localStorage.removeItem('adminToken');
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('adminDashboard').classList.remove('active');
+      document.getElementById('passwordInput').value = '';
+    }
+
+    function showAdmin() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminDashboard').classList.add('active');
+    }
+
+    async function loadProperties() {
+      try {
+        const res = await fetch(API_BASE);
+        const data = await res.json();
+        properties = data.properties || [];
+        renderProperties();
+      } catch (e) {
+        console.error('Failed to load properties:', e);
+      }
+    }
+
+    function renderProperties() {
+      const grid = document.getElementById('propertiesGrid');
+      const empty = document.getElementById('emptyState');
+      
+      if (properties.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      
+      empty.style.display = 'none';
+      grid.innerHTML = properties.map(p => `
+        <div class="property-card">
+          ${p.images && p.images[0] 
+            ? `<img src="${p.images[0]}" alt="${p.title}" onerror="this.outerHTML='<div class=\\'no-image\\'>No Image</div>'">`
+            : '<div class="no-image">No Image</div>'
+          }
+          <div class="content">
+            <h3>${escapeHtml(p.title)}</h3>
+            <div class="price">€${Number(p.price).toLocaleString()}</div>
+            <div class="meta">
+              <span>${p.bedrooms || 0} bed</span>
+              <span>${p.bathrooms || 0} bath</span>
+              <span>${p.size || 0}m²</span>
+            </div>
+            <div class="meta">${escapeHtml(p.area || p.location || 'No location')}</div>
+            <span class="status ${p.status}">${p.status}</span>
+            ${p.featured ? ' ⭐' : ''}
+            <div class="actions">
+              <button class="btn-edit" onclick="editProperty('${p.id}')">Edit</button>
+              <button class="btn-delete" onclick="deleteProperty('${p.id}')">Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    function openModal(property = null) {
+      editingId = property ? property.id : null;
+      document.getElementById('modalTitle').textContent = property ? 'Edit Property' : 'Add Property';
+      
+      // Reset form
+      document.getElementById('propId').value = property?.id || '';
+      document.getElementById('propTitle').value = property?.title || '';
+      document.getElementById('propPrice').value = property?.price || '';
+      document.getElementById('propRef').value = property?.ref || '';
+      document.getElementById('propType').value = property?.type || 'house';
+      document.getElementById('propStatus').value = property?.status || 'active';
+      document.getElementById('propBedrooms').value = property?.bedrooms || '';
+      document.getElementById('propBathrooms').value = property?.bathrooms || '';
+      document.getElementById('propSize').value = property?.size || '';
+      document.getElementById('propPlotSize').value = property?.plotSize || '';
+      document.getElementById('propLocation').value = property?.location || '';
+      document.getElementById('propArea').value = property?.area || '';
+      document.getElementById('propDescription').value = property?.description || '';
+      document.getElementById('propImages').value = (property?.images || []).join('\n');
+      document.getElementById('propFeatured').checked = property?.featured || false;
+      
+      // Reset features checkboxes
+      document.querySelectorAll('#featuresGroup input').forEach(cb => {
+        cb.checked = (property?.features || []).includes(cb.value);
+      });
+      
+      document.getElementById('propertyModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('propertyModal').classList.remove('active');
+      editingId = null;
+    }
+
+    function editProperty(id) {
+      const property = properties.find(p => p.id === id);
+      if (property) openModal(property);
+    }
+
+    async function saveProperty() {
+      const features = [];
+      document.querySelectorAll('#featuresGroup input:checked').forEach(cb => {
+        features.push(cb.value);
+      });
+
+      const images = document.getElementById('propImages').value
+        .split('\n')
+        .map(url => url.trim())
+        .filter(url => url);
+
+      const data = {
+        id: editingId,
+        title: document.getElementById('propTitle').value,
+        price: Number(document.getElementById('propPrice').value) || 0,
+        ref: document.getElementById('propRef').value,
+        type: document.getElementById('propType').value,
+        status: document.getElementById('propStatus').value,
+        bedrooms: Number(document.getElementById('propBedrooms').value) || 0,
+        bathrooms: Number(document.getElementById('propBathrooms').value) || 0,
+        size: Number(document.getElementById('propSize').value) || 0,
+        plotSize: Number(document.getElementById('propPlotSize').value) || 0,
+        location: document.getElementById('propLocation').value,
+        area: document.getElementById('propArea').value,
+        description: document.getElementById('propDescription').value,
+        images: images,
+        features: features,
+        featured: document.getElementById('propFeatured').checked
+      };
+
+      try {
+        const method = editingId ? 'PUT' : 'POST';
+        const res = await fetch(API_BASE, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (res.status === 401) {
+          alert('Session expired. Please login again.');
+          logout();
+          return;
+        }
+
+        const result = await res.json();
+        if (result.success) {
+          closeModal();
+          loadProperties();
+        } else {
+          alert('Error: ' + (result.error || 'Failed to save'));
+        }
+      } catch (e) {
+        alert('Error saving property: ' + e.message);
+      }
+    }
+
+    async function deleteProperty(id) {
+      if (!confirm('Are you sure you want to delete this property?')) return;
+      
+      try {
+        const res = await fetch(`${API_BASE}?id=${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+
+        if (res.status === 401) {
+          alert('Session expired. Please login again.');
+          logout();
+          return;
+        }
+
+        const result = await res.json();
+        if (result.success) {
+          loadProperties();
+        } else {
+          alert('Error: ' + (result.error || 'Failed to delete'));
+        }
+      } catch (e) {
+        alert('Error deleting property: ' + e.message);
+      }
+    }
+
+    // Close modal on outside click
+    document.getElementById('propertyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'propertyModal') closeModal();
+    });
+  </script>
+</body>
+</html>
