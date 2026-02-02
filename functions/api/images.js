@@ -28,25 +28,21 @@ export async function onRequest(context) {
         });
       }
 
-      const imageData = await env.PROPERTIES_KV.get(`image:${id}`, 'json');
-      if (!imageData) {
-        return new Response('Image not found', { status: 404, headers: corsHeaders });
+      // Try to get raw binary first (new format)
+      const rawData = await env.PROPERTIES_KV.get(`image:${id}`, 'arrayBuffer');
+      if (rawData) {
+        // Get metadata
+        const meta = await env.PROPERTIES_KV.get(`imagemeta:${id}`, 'json');
+        return new Response(rawData, {
+          headers: {
+            ...corsHeaders,
+            'Content-Type': meta?.contentType || 'image/jpeg',
+            'Cache-Control': 'public, max-age=31536000'
+          }
+        });
       }
 
-      // Decode base64 and return image
-      const binaryString = atob(imageData.data);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-
-      return new Response(bytes, {
-        headers: {
-          ...corsHeaders,
-          'Content-Type': imageData.contentType,
-          'Cache-Control': 'public, max-age=31536000'
-        }
-      });
+      return new Response('Image not found', { status: 404, headers: corsHeaders });
     }
 
     // Auth required for POST
@@ -90,17 +86,13 @@ export async function onRequest(context) {
 
         try {
           const arrayBuffer = await file.arrayBuffer();
-          const bytes = new Uint8Array(arrayBuffer);
-          let binary = '';
-          for (let i = 0; i < bytes.length; i++) {
-            binary += String.fromCharCode(bytes[i]);
-          }
-          const base64 = btoa(binary);
-
           const imageId = `img-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
           
-          await env.PROPERTIES_KV.put(`image:${imageId}`, JSON.stringify({
-            data: base64,
+          // Store raw binary data
+          await env.PROPERTIES_KV.put(`image:${imageId}`, arrayBuffer);
+          
+          // Store metadata separately
+          await env.PROPERTIES_KV.put(`imagemeta:${imageId}`, JSON.stringify({
             contentType: file.type,
             filename: file.name,
             size: file.size,
