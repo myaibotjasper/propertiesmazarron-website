@@ -189,14 +189,39 @@
   </footer>
 
   <script>
-    function submitForm(e) {
+    async function submitForm(e) {
       e.preventDefault();
-      // In a real implementation, this would send to an API
-      document.getElementById('formSuccess').style.display = 'block';
-      document.getElementById('contactForm').reset();
-      setTimeout(() => {
-        document.getElementById('formSuccess').style.display = 'none';
-      }, 5000);
+      const form = document.getElementById('contactForm');
+      const btn = form.querySelector('button[type="submit"]');
+      const success = document.getElementById('formSuccess');
+      
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          success.textContent = result.message || 'Thank you! Your message has been sent.';
+          success.style.display = 'block';
+          form.reset();
+          setTimeout(() => { success.style.display = 'none'; }, 5000);
+        } else {
+          alert('Sorry, there was a problem sending your message. Please try again or email us directly.');
+        }
+      } catch (error) {
+        console.error('Form error:', error);
+        alert('Sorry, there was a problem sending your message. Please try again or email us directly at jgalvezrenero@gmail.com');
+      }
+      
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
     }
   </script>
 </body>
