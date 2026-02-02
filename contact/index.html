@@ -189,6 +189,20 @@
   </footer>
 
   <script>
+    // Pre-fill message if coming from a property page
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get('ref');
+      const property = params.get('property');
+      
+      if (ref && property) {
+        const messageField = document.getElementById('message');
+        const interestField = document.getElementById('interest');
+        messageField.value = `I am interested in the property: ${property} (Ref: ${ref})\n\nPlease contact me with more information.`;
+        interestField.value = 'buying';
+      }
+    });
+
     async function submitForm(e) {
       e.preventDefault();
       const form = document.getElementById('contactForm');

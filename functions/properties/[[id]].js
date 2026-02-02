@@ -258,7 +258,7 @@ function generatePropertyPage(p) {
           <p>Contact us for more information or to arrange a viewing.</p>
           <div class="phone">${icons.phone} <a href="tel:+34968153707">+34 968 15 37 07</a></div>
           <a href="mailto:jgalvezrenero@gmail.com?subject=Enquiry: ${encodeURIComponent(p.title)} (${p.ref || p.id.slice(-8).toUpperCase()})" class="btn">${icons.mail} Email Enquiry</a>
-          <a href="/contact/" class="btn btn-secondary">Contact Form</a>
+          <a href="/contact/?ref=${encodeURIComponent(p.ref || p.id.slice(-8).toUpperCase())}&property=${encodeURIComponent(p.title)}" class="btn btn-secondary">Contact Form</a>
         </div>
       </div>
     </div>
