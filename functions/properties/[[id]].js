@@ -179,7 +179,7 @@ function generatePropertyPage(p) {
   <div class="top-bar">
     <div class="top-bar-inner">
       <span>${icons.phone} <a href="tel:+34968153707">+34 968 15 37 07</a></span>
-      <span>${icons.mail} <a href="mailto:jgalvezrenero@gmail.com">jgalvezrenero@gmail.com</a></span>
+      <span>${icons.mail} <a href="#" onclick="window.location.href=atob('bWFpbHRvOmpnYWx2ZXpyZW5lcm9AZ21haWwuY29t');return false;" data-email="protected"><span class='eml' data-u='jgalvezrenero' data-d='gmail.com'></span></a></span>
     </div>
   </div>
 
@@ -257,7 +257,7 @@ function generatePropertyPage(p) {
           <h3>Interested in this property?</h3>
           <p>Contact us for more information or to arrange a viewing.</p>
           <div class="phone">${icons.phone} <a href="tel:+34968153707">+34 968 15 37 07</a></div>
-          <a href="mailto:jgalvezrenero@gmail.com?subject=Enquiry: ${encodeURIComponent(p.title)} (${p.ref || p.id.slice(-8).toUpperCase()})" class="btn">${icons.mail} Email Enquiry</a>
+          <a href="#" onclick="window.location.href=atob('bWFpbHRvOmpnYWx2ZXpyZW5lcm9AZ21haWwuY29t');return false;" data-email="protected?subject=Enquiry: ${encodeURIComponent(p.title)} (${p.ref || p.id.slice(-8).toUpperCase()})" class="btn">${icons.mail} Email Enquiry</a>
           <a href="/contact/?ref=${encodeURIComponent(p.ref || p.id.slice(-8).toUpperCase())}&property=${encodeURIComponent(p.title)}" class="btn btn-secondary">Contact Form</a>
         </div>
       </div>
@@ -279,7 +279,7 @@ function generatePropertyPage(p) {
       currentImage = index;
     }
   </script>
-</body>
+<script>document.querySelectorAll('.eml').forEach(function(e){e.textContent=e.dataset.u+'@'+e.dataset.d;});</script></body>
 </html>`;
 }
 
@@ -312,6 +312,6 @@ function generateNotFoundPage() {
       <p><a href="/properties/">← Browse all properties</a></p>
     </div>
   </main>
-</body>
+<script>document.querySelectorAll('.eml').forEach(function(e){e.textContent=e.dataset.u+'@'+e.dataset.d;});</script></body>
 </html>`;
 }
