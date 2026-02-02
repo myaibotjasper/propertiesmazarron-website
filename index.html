@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties Mazarron - Spanish Properties For Sale in Costa Calida</title>
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            /* Theme 1: Original Teal (Current) */
+            --primary: #2BA9B8;
+            --primary-dark: #238A96;
+            --primary-light: #3CBFCF;
+            --accent: #4A5568;
+            --text: #2D3748;
+            --text-light: #718096;
+            --bg: #FFFFFF;
+            --bg-alt: #F7FAFC;
+            --footer-bg: #1a1a1a;
+        }
+        
+        [data-theme="blue"] {
+            /* Theme 2: Mediterranean Blue */
+            --primary: #1E6091;
+            --primary-dark: #184D73;
+            --primary-light: #2980B9;
+            --accent: #E67E22;
+        }
+        
+        [data-theme="terracotta"] {
+            /* Theme 3: Spanish Terracotta */
+            --primary: #C45D3E;
+            --primary-dark: #A34E33;
+            --primary-light: #E07B5F;
+            --accent: #2C5F2D;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--bg);
+        }
+        
+        /* Theme Switcher */
+        .theme-switcher {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: white;
+            padding: 12px;
+            border-radius: 8px 0 0 8px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .theme-switcher h4 {
+            font-size: 11px;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            margin: 4px 0;
+            display: block;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .theme-btn:hover { transform: scale(1.1); }
+        .theme-btn.active { border-color: #333; }
+        .theme-btn[data-theme="default"] { background: #2BA9B8; }
+        .theme-btn[data-theme="blue"] { background: #1E6091; }
+        .theme-btn[data-theme="terracotta"] { background: #C45D3E; }
+        
+        /* Header */
+        .top-bar {
+            background: var(--footer-bg);
+            color: white;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar a { color: white; text-decoration: none; }
+        
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        .logo img { height: 60px; }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600') center/cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 32px;
+            opacity: 0.95;
+        }
+        .hero-tags {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .hero-tag {
+            background: var(--primary);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        /* Search Box */
+        .search-box {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 900px;
+            margin: -60px auto 60px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        .search-box h3 {
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .search-grid select, .search-grid input {
+            padding: 12px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: var(--bg-alt);
+        }
+        .search-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-btn:hover { background: var(--primary-dark); }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--bg-alt);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .feature {
+            text-align: center;
+            padding: 32px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+        .feature h3 { margin-bottom: 12px; color: var(--text); }
+        .feature p { color: var(--text-light); font-size: 14px; }
+        
+        /* Properties Section */
+        .properties-section {
+            padding: 80px 0;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        .section-header p { color: var(--text-light); }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+        
+        .property-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .property-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .property-image {
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .property-tag {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .property-price {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .property-content { padding: 20px; }
+        .property-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .property-location {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .property-specs {
+            display: flex;
+            gap: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #E2E8F0;
+        }
+        .spec {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .spec strong { color: var(--text); }
+        
+        /* About Section */
+        .about-section {
+            padding: 80px 0;
+            background: var(--bg-alt);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-content h2 { font-size: 32px; margin-bottom: 20px; }
+        .about-content p { margin-bottom: 16px; color: var(--text-light); }
+        .about-image {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .about-image img { width: 100%; display: block; }
+        
+        /* CTA */
+        .cta {
+            background: var(--primary);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta h2 { font-size: 36px; margin-bottom: 16px; }
+        .cta p { margin-bottom: 32px; opacity: 0.9; }
+        .cta-btn {
+            background: white;
+            color: var(--primary);
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover { transform: scale(1.05); }
+        
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-about img { height: 50px; margin-bottom: 16px; }
+        .footer-about p { color: #A0AEC0; font-size: 14px; }
+        footer h4 {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        footer ul { list-style: none; }
+        footer li { margin-bottom: 10px; }
+        footer a { color: #A0AEC0; text-decoration: none; transition: color 0.2s; }
+        footer a:hover { color: var(--primary-light); }
+        .footer-contact p {
+            color: #A0AEC0;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid #2D3748;
+            text-align: center;
+            color: #718096;
+            font-size: 13px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-main { flex-direction: column; gap: 16px; }
+            nav { gap: 16px; flex-wrap: wrap; justify-content: center; }
+            .hero h1 { font-size: 32px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .about-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .properties-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <h4>THEME</h4>
+        <button class="theme-btn active" data-theme="default" title="Teal (Original)"></button>
+        <button class="theme-btn" data-theme="blue" title="Mediterranean Blue"></button>
+        <button class="theme-btn" data-theme="terracotta" title="Spanish Terracotta"></button>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span>📞 Call Us: <a href="tel:+34968153707">+34 968 15 37 07</a></span>
+            <span>✉️ <a href="mailto:info@propertiesmazarron.es">info@propertiesmazarron.es</a></span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-main">
+                <a href="/" class="logo">
+                    <img src="/assets/images/logo.png" alt="Properties Mazarron">
+                </a>
+                <nav>
+                    <a href="/" class="active">Home</a>
+                    <a href="/properties/">Properties</a>
+                    <a href="/about.html">About Us</a>
+                    <a href="/areas.html">Areas</a>
+                    <a href="/contact.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-tags">
+                <span class="hero-tag">🏡 Villas with Pools</span>
+                <span class="hero-tag">🌴 Holiday Homes</span>
+                <span class="hero-tag">☀️ Retirement Homes</span>
+            </div>
+            <h1>Find Your Dream Home in Spain</h1>
+            <p>Properties for sale in Mazarron, Puerto de Mazarron, Camposol & Costa Calida</p>
+        </div>
+    </section>
+
+    <!-- Search Box -->
+    <div class="container">
+        <div class="search-box">
+            <h3>🔍 Search Properties</h3>
+            <div class="search-grid">
+                <input type="text" placeholder="Reference (e.g. GR202)">
+                <select>
+                    <option value="">Property Type</option>
+                    <option>Villa</option>
+                    <option>Apartment</option>
+                    <option>Country House</option>
+                    <option>Plot/Land</option>
+                    <option>Townhouse</option>
+                </select>
+                <select>
+                    <option value="">Bedrooms</option>
+                    <option>1+</option>
+                    <option>2+</option>
+                    <option>3+</option>
+                    <option>4+</option>
+                </select>
+                <select>
+                    <option value="">Max Price</option>
+                    <option>€100,000</option>
+                    <option>€200,000</option>
+                    <option>€300,000</option>
+                    <option>€500,000</option>
+                    <option>€1,000,000+</option>
+                </select>
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">🏠</div>
+                    <h3>What to Buy</h3>
+                    <p>Consult with experts who have years of knowledge living in this area. Whether it's a villa with a pool, duplex, apartment or finca — we'll help you find the right property.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📍</div>
+                    <h3>Where to Buy</h3>
+                    <p>The Costa Calida offers stunning beaches, boating, restaurants and historical cities. Mazarron, Puerto de Mazarron, La Azohia, Isla Plana and Bolnuevo are great places to buy.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Expert Support</h3>
+                    <p>J Gálvez Renero S.L. has assisted people relocating to Spain for many years, providing all necessary legal documents and ongoing support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties -->
+    <section class="properties-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Properties</h2>
+                <p>Discover our latest listings in the Costa Calida region</p>
+            </div>
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card">
+                    <div class="property-image" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600')">
+                        <span class="property-tag">Country House</span>
+                        <span class="property-price">€500,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Close to Mazarron Country Club</h3>
+                        <p class="property-location">📍 Mazarron, Murcia, Costa Calida</p>
+                        <div class="property-specs">
+                            <span class="spec">🛏 <strong>3</strong> Beds</span>
+                            <span class="spec">🚿 <strong>2</strong> Baths</span>
+                            <span class="spec">📐 <strong>186</strong> m²</span>
+                            <span class="spec">🏊 Pool</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Property 2 -->
+                <div class="property-card">
+                    <div class="property-image" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600')">
+                        <span class="property-tag">Plot/Land</span>
+                        <span class="property-price">€64,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Mazarron Country Club Plot</h3>
+                        <p class="property-location">📍 Mazarron Country Club, Murcia</p>
+                        <div class="property-specs">
+                            <span class="spec">📐 <strong>400</strong> m² plot</span>
+                            <span class="spec">🏗️ Building plot</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Placeholder Property 3 -->
+                <div class="property-card">
+                    <div class="property-image" style="background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600')">
+                        <span class="property-tag">Villa</span>
+                        <span class="property-price">€350,000</span>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title">Modern Villa with Sea Views</h3>
+                        <p class="property-location">📍 Puerto de Mazarron</p>
+                        <div class="property-specs">
+                            <span class="spec">🛏 <strong>4</strong> Beds</span>
+                            <span class="spec">🚿 <strong>3</strong> Baths</span>
+                            <span class="spec">📐 <strong>220</strong> m²</span>
+                            <span class="spec">🏊 Pool</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2>Your Trusted Partner in Spanish Property</h2>
+                    <p>J Gálvez Renero S.L. has been established in the Mazarron area for many years, assisting people to relocate to Spain by providing all necessary legal documents and fulfilling the requirements of living in a foreign country.</p>
+                    <p>The company remains a constant in the area with many clients dating back some considerable years. From time to time a problem may arise and it is comforting to know that help is just a phone call away.</p>
+                    <p>With our legal and local knowledge, we ensure a smooth transition for anyone wishing to purchase a property in this beautiful region of Spain.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" alt="Costa Calida">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Find Your Dream Property?</h2>
+            <p>Contact us today for a free consultation and let us help you find the perfect home in Spain</p>
+            <a href="/contact.html" class="cta-btn">📞 Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <img src="/assets/images/logo.png" alt="Properties Mazarron">
+                    <p>J Gálvez Renero S.L. — Your trusted partner for property sales in Mazarron and the Costa Calida region since 2013.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/properties/">All Properties</a></li>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/areas.html">Areas We Cover</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Property Types</h4>
+                    <ul>
+                        <li><a href="/properties/?type=villa">Villas</a></li>
+                        <li><a href="/properties/?type=apartment">Apartments</a></li>
+                        <li><a href="/properties/?type=country-house">Country Houses</a></li>
+                        <li><a href="/properties/?type=land">Land & Plots</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>📞 +34 968 15 37 07</p>
+                    <p>📠 Fax: 968 15 35 59</p>
+                    <p>✉️ info@propertiesmazarron.es</p>
+                    <p>📍 Mazarron, Murcia, Spain</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2013-2026 Properties Mazarron. All rights reserved. | <a href="/legal.html">Aviso Legal</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Switcher
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const theme = btn.dataset.theme;
+                if (theme === 'default') {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', theme);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
