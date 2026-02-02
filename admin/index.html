@@ -465,35 +465,48 @@
       if (property) openModal(property);
     }
 
-    // Image Upload Handling - initialize after DOM ready
-    document.addEventListener('DOMContentLoaded', function() {
+    // Image Upload Handling - setup immediately (script is at end of body)
+    (function initImageUpload() {
       const uploadArea = document.getElementById('imageUploadArea');
       const imageInput = document.getElementById('imageInput');
       
-      if (uploadArea && imageInput) {
-        uploadArea.addEventListener('click', () => imageInput.click());
-        
-        uploadArea.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          uploadArea.classList.add('dragover');
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-          uploadArea.classList.remove('dragover');
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-          e.preventDefault();
-          uploadArea.classList.remove('dragover');
-          handleFiles(e.dataTransfer.files);
-        });
-        
-        imageInput.addEventListener('change', (e) => {
-          handleFiles(e.target.files);
-          imageInput.value = ''; // Reset for re-upload
-        });
+      if (!uploadArea || !imageInput) {
+        console.error('Image upload elements not found');
+        return;
       }
-    });
+      
+      uploadArea.addEventListener('click', (e) => {
+        if (e.target === uploadArea || uploadArea.contains(e.target)) {
+          imageInput.click();
+        }
+      });
+      
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadArea.classList.add('dragover');
+      });
+      
+      uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadArea.classList.remove('dragover');
+      });
+      
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadArea.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+      });
+      
+      imageInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+        imageInput.value = ''; // Reset for re-upload
+      });
+      
+      console.log('Image upload initialized');
+    })();
 
     async function handleFiles(files) {
       try {
