@@ -6,6 +6,7 @@
   <title>Contact Us - Properties Mazarrón</title>
   <meta name="description" content="Contact Properties Mazarrón for property enquiries in Mazarrón and Costa Cálida. Call +34 968 15 37 07.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', -apple-system, sans-serif; color: #1a365d; line-height: 1.6; background: #f7fafc; }
@@ -171,7 +172,8 @@
             <label for="message">Your Message *</label>
             <textarea id="message" name="message" required placeholder="Tell us about your requirements..."></textarea>
           </div>
-          <button type="submit" class="btn-submit">Send Message</button>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAACW1YoSzPxiRhnBh" data-callback="onTurnstileSuccess"></div>
+          <button type="submit" class="btn-submit" id="submitBtn" disabled>Send Message</button>
         </form>
       </div>
     </div>
@@ -189,6 +191,11 @@
   </footer>
 
   <script>
+    // Turnstile callback - enable submit when verified
+    function onTurnstileSuccess(token) {
+      document.getElementById('submitBtn').disabled = false;
+    }
+
     // Pre-fill message if coming from a property page
     document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);

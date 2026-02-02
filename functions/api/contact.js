@@ -15,6 +15,24 @@ export async function onRequestPost(context) {
     const phone = formData.get('phone') || '';
     const interest = formData.get('interest') || '';
     const message = formData.get('message') || '';
+    const turnstileToken = formData.get('cf-turnstile-response');
+
+    // Verify Turnstile token
+    if (env.TURNSTILE_SECRET && turnstileToken) {
+      const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${env.TURNSTILE_SECRET}&response=${turnstileToken}`
+      });
+      const turnstileResult = await turnstileResponse.json();
+      
+      if (!turnstileResult.success) {
+        return new Response(JSON.stringify({ error: 'Security verification failed. Please try again.' }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+    }
 
     if (!name || !email || !message) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
