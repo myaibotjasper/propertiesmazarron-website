@@ -9,32 +9,16 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            /* Theme 1: Original Teal (Current) */
-            --primary: #2BA9B8;
-            --primary-dark: #238A96;
-            --primary-light: #3CBFCF;
-            --accent: #4A5568;
+            /* Mediterranean Blue - Client Approved */
+            --primary: #1E6091;
+            --primary-dark: #184D73;
+            --primary-light: #2980B9;
+            --accent: #E67E22;
             --text: #2D3748;
             --text-light: #718096;
             --bg: #FFFFFF;
             --bg-alt: #F7FAFC;
             --footer-bg: #1a1a1a;
-        }
-        
-        [data-theme="blue"] {
-            /* Theme 2: Mediterranean Blue */
-            --primary: #1E6091;
-            --primary-dark: #184D73;
-            --primary-light: #2980B9;
-            --accent: #E67E22;
-        }
-        
-        [data-theme="terracotta"] {
-            /* Theme 3: Spanish Terracotta */
-            --primary: #C45D3E;
-            --primary-dark: #A34E33;
-            --primary-light: #E07B5F;
-            --accent: #2C5F2D;
         }
         
         body {
@@ -43,40 +27,6 @@
             line-height: 1.6;
             background: var(--bg);
         }
-        
-        /* Theme Switcher */
-        .theme-switcher {
-            position: fixed;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            background: white;
-            padding: 12px;
-            border-radius: 8px 0 0 8px;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-        .theme-switcher h4 {
-            font-size: 11px;
-            margin-bottom: 8px;
-            color: var(--text-light);
-        }
-        .theme-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            margin: 4px 0;
-            display: block;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-        }
-        .theme-btn:hover { transform: scale(1.1); }
-        .theme-btn.active { border-color: #333; }
-        .theme-btn[data-theme="default"] { background: #2BA9B8; }
-        .theme-btn[data-theme="blue"] { background: #1E6091; }
-        .theme-btn[data-theme="terracotta"] { background: #C45D3E; }
         
         /* Header */
         .top-bar {
@@ -407,14 +357,6 @@
     </style>
 </head>
 <body>
-    <!-- Theme Switcher -->
-    <div class="theme-switcher">
-        <h4>THEME</h4>
-        <button class="theme-btn active" data-theme="default" title="Teal (Original)"></button>
-        <button class="theme-btn" data-theme="blue" title="Mediterranean Blue"></button>
-        <button class="theme-btn" data-theme="terracotta" title="Spanish Terracotta"></button>
-    </div>
-
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
@@ -638,20 +580,5 @@
         </div>
     </footer>
 
-    <script>
-        // Theme Switcher
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const theme = btn.dataset.theme;
-                if (theme === 'default') {
-                    document.documentElement.removeAttribute('data-theme');
-                } else {
-                    document.documentElement.setAttribute('data-theme', theme);
-                }
-            });
-        });
-    </script>
 </body>
 </html>
