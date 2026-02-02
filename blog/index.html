@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Properties Mazarrón</title>
+  <meta name="description" content="News, tips and insights about buying property in Mazarrón and Costa Cálida.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, sans-serif; color: #1a365d; line-height: 1.6; background: #f7fafc; }
+    
+    .top-bar { background: #1a365d; color: white; padding: 0.5rem 2rem; font-size: 0.875rem; }
+    .top-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .top-bar a { color: white; text-decoration: none; }
+    
+    header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #1a365d; text-decoration: none; }
+    .logo span { color: #e53e3e; }
+    nav { display: flex; gap: 2rem; }
+    nav a { color: #4a5568; text-decoration: none; font-weight: 500; }
+    nav a:hover, nav a.active { color: #e53e3e; }
+    .mobile-menu { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+    
+    .page-header { background: #1a365d; color: white; padding: 3rem 2rem; text-align: center; }
+    .page-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    
+    main { max-width: 900px; margin: 0 auto; padding: 2rem; }
+    
+    .blog-grid { display: grid; gap: 2rem; }
+    
+    .blog-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); display: grid; grid-template-columns: 300px 1fr; }
+    .blog-card img { width: 100%; height: 200px; object-fit: cover; }
+    .blog-card .no-image { height: 200px; background: linear-gradient(135deg, #1a365d, #2c5282); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; }
+    .blog-card .content { padding: 1.5rem; display: flex; flex-direction: column; }
+    .blog-card .meta { font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem; }
+    .blog-card .category { background: #ebf8ff; color: #2b6cb0; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .blog-card h2 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .blog-card h2 a { color: #1a365d; text-decoration: none; }
+    .blog-card h2 a:hover { color: #e53e3e; }
+    .blog-card .excerpt { color: #4a5568; flex: 1; margin-bottom: 1rem; }
+    .blog-card .read-more { color: #e53e3e; text-decoration: none; font-weight: 500; }
+    .blog-card .read-more:hover { text-decoration: underline; }
+    
+    .empty-state { text-align: center; padding: 4rem; background: white; border-radius: 12px; }
+    .empty-state h3 { margin-bottom: 0.5rem; color: #4a5568; }
+    .empty-state p { color: #a0aec0; }
+    
+    footer { background: #0f172a; color: #94a3b8; padding: 2rem; text-align: center; margin-top: 3rem; }
+    footer a { color: #94a3b8; }
+    
+    @media (max-width: 768px) {
+      nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; flex-direction: column; padding: 1rem; gap: 1rem; }
+      nav.active { display: flex; }
+      .mobile-menu { display: block; }
+      .blog-card { grid-template-columns: 1fr; }
+      .blog-card img, .blog-card .no-image { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span>📞 <a href="tel:+34968153707">+34 968 15 37 07</a></span>
+      <span>📧 <a href="mailto:jgalvezrenero@gmail.com">jgalvezrenero@gmail.com</a></span>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo">Properties<span>Mazarrón</span></a>
+      <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('active')">☰</button>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/properties/">Properties</a>
+        <a href="/services/">Services</a>
+        <a href="/blog/" class="active">Blog</a>
+        <a href="/about/">About Us</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-header">
+    <h1>Blog</h1>
+    <p>News, tips and insights about property in Costa Cálida</p>
+  </div>
+
+  <main>
+    <div class="blog-grid" id="blogGrid">
+      <div class="empty-state">Loading posts...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2013-2026 Properties Mazarrón - J. Gálvez Renero S.L.U. | <a href="/aviso-legal/">Aviso Legal</a></p>
+  </footer>
+
+  <script>
+    async function loadPosts() {
+      try {
+        const res = await fetch('/api/blog');
+        const data = await res.json();
+        const posts = (data.posts || []).filter(p => p.status === 'published');
+        
+        const grid = document.getElementById('blogGrid');
+        
+        if (posts.length === 0) {
+          grid.innerHTML = '<div class="empty-state"><h3>No posts yet</h3><p>Check back soon for news and updates!</p></div>';
+          return;
+        }
+        
+        grid.innerHTML = posts.map(p => {
+          const date = new Date(p.publishedAt || p.createdAt).toLocaleDateString('en-GB', {
+            day: 'numeric', month: 'long', year: 'numeric'
+          });
+          return `
+            <article class="blog-card">
+              ${p.featuredImage 
+                ? `<img src="${escapeHtml(p.featuredImage)}" alt="${escapeHtml(p.title)}">`
+                : '<div class="no-image">📰</div>'
+              }
+              <div class="content">
+                <div class="meta">
+                  <span class="category">${escapeHtml(p.category || 'News')}</span>
+                  &nbsp;•&nbsp; ${date}
+                </div>
+                <h2><a href="/blog/${escapeHtml(p.slug)}/">${escapeHtml(p.title)}</a></h2>
+                <p class="excerpt">${escapeHtml(p.excerpt || p.content?.slice(0, 150) + '...')}</p>
+                <a href="/blog/${escapeHtml(p.slug)}/" class="read-more">Read more →</a>
+              </div>
+            </article>
+          `;
+        }).join('');
+      } catch (e) {
+        document.getElementById('blogGrid').innerHTML = '<div class="empty-state"><h3>Unable to load posts</h3><p>Please try again later.</p></div>';
+      }
+    }
+    
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+    
+    loadPosts();
+  </script>
+</body>
+</html>
